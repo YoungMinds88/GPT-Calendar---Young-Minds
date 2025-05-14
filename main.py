@@ -13,10 +13,20 @@ TOKEN_FILE = 'token.json'
 
 def get_credentials():
     flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-    creds = flow.run_local_server(port=0)
+    auth_url, _ = flow.authorization_url(prompt='consent')
+
+    print("👉 Abre este enlace en tu navegador para autorizar:")
+    print(auth_url)
+
+    # IMPORTANTE: Aquí va el código que introduces manualmente
+    code = input("🔐 Pega aquí el código de autorización: ")
+    flow.fetch_token(code=code)
+
+    creds = flow.credentials
     with open(TOKEN_FILE, 'w') as token:
         token.write(creds.to_json())
     return creds
+
 
 @app.route('/crear-evento', methods=['POST'])
 def crear_evento():
