@@ -46,4 +46,4 @@ def crear_evento():
     return jsonify({'status': 'ok', 'event_link': event.get('htmlLink')})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
