@@ -1,14 +1,14 @@
 openapi: 3.0.1
 info:
-  title: Calendario Young Minds
-  description: API para crear y cancelar eventos en el calendario de Young Minds mediante lenguaje natural.
-  version: '1.0.0'
+  title: GPT Calendar – Young Minds
+  description: Plugin que permite crear y cancelar eventos en el calendario de Young Minds mediante lenguaje natural.
+  version: "1.0.0"
 servers:
   - url: https://gpt-calendar-young-minds.onrender.com
 paths:
   /crear-evento:
     post:
-      summary: Crear un nuevo evento en el calendario
+      summary: Crear un nuevo evento en Google Calendar
       operationId: crearEvento
       requestBody:
         required: true
@@ -23,14 +23,18 @@ paths:
                 start_time:
                   type: string
                   format: date-time
-                  description: Fecha y hora de inicio (ej: 2025-05-15T17:30:00)
+                  description: Fecha y hora de inicio (ISO 8601)
                 end_time:
                   type: string
                   format: date-time
-                  description: Fecha y hora de fin (ej: 2025-05-15T18:30:00)
+                  description: Fecha y hora de fin (ISO 8601)
                 location:
                   type: string
-                  description: Lugar del evento (opcional)
+                  description: Ubicación del evento (opcional)
+              required:
+                - title
+                - start_time
+                - end_time
       responses:
         '200':
           description: Evento creado correctamente
@@ -43,11 +47,9 @@ paths:
                     type: string
                   event_id:
                     type: string
-        '500':
-          description: Error al crear el evento
   /cancel-evento:
     post:
-      summary: Cancelar un evento existente por ID
+      summary: Cancelar un evento existente en Google Calendar
       operationId: cancelarEvento
       requestBody:
         required: true
@@ -59,6 +61,8 @@ paths:
                 event_id:
                   type: string
                   description: ID del evento a cancelar
+              required:
+                - event_id
       responses:
         '200':
           description: Evento cancelado correctamente
@@ -69,7 +73,3 @@ paths:
                 properties:
                   status:
                     type: string
-        '400':
-          description: Faltan datos requeridos
-        '500':
-          description: Error al cancelar el evento
