@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: Calendario Young Minds
+  description: API para crear y cancelar eventos en el calendario de Young Minds mediante lenguaje natural.
+  version: '1.0.0'
+servers:
+  - url: https://gpt-calendar-young-minds.onrender.com
+paths:
+  /crear-evento:
+    post:
+      summary: Crear un nuevo evento en el calendario
+      operationId: crearEvento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Título del evento
+                start_time:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de inicio (ej: 2025-05-15T17:30:00)
+                end_time:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de fin (ej: 2025-05-15T18:30:00)
+                location:
+                  type: string
+                  description: Lugar del evento (opcional)
+      responses:
+        '200':
+          description: Evento creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  event_id:
+                    type: string
+        '500':
+          description: Error al crear el evento
+  /cancel-evento:
+    post:
+      summary: Cancelar un evento existente por ID
+      operationId: cancelarEvento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_id:
+                  type: string
+                  description: ID del evento a cancelar
+      responses:
+        '200':
+          description: Evento cancelado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Faltan datos requeridos
+        '500':
+          description: Error al cancelar el evento
