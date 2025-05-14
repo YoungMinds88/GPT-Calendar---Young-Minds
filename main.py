@@ -101,10 +101,5 @@ from flask import send_from_directory
 def serve_ai_plugin():
     return send_from_directory('.well-known', 'ai-plugin.json', mimetype='application/json')
 
-@app.route('/openapi.yaml')
-def serve_openapi():
-    return send_from_directory('.', 'openapi.yaml', mimetype='text/yaml')
-
-
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=10000)
