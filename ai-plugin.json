@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Calendario Young Minds",
+  "name_for_model": "gpt_calendar_young_minds",
+  "description_for_human": "Gestiona tu calendario con comandos naturales.",
+  "description_for_model": "Permite crear y cancelar eventos en Google Calendar mediante lenguaje natural.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gpt-calendar-young-minds.onrender.com/openapi.yaml"
+  },
+  "logo_url": "https://avatars.githubusercontent.com/u/14957073?s=200&v=4",
+  "contact_email": "youngminds88@gmail.com",
+  "legal_info_url": "https://young-minds.com/legal"
+}
