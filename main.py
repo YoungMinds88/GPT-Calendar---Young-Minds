@@ -89,6 +89,11 @@ def cancel_event():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+from flask import send_file  # Asegúrate de que esta línea esté al principio del archivo
+
+@app.route("/openapi.yaml")
+def serve_openapi():
+    return send_file("openapi.yaml", mimetype="text/yaml")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=10000)
