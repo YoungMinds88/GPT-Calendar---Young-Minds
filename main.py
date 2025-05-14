@@ -1,5 +1,6 @@
 
 from flask import Flask, request, jsonify, redirect
+from werkzeug.middleware.proxy_fix import ProxyFix
 import datetime
 import os.path
 import json
@@ -12,6 +13,7 @@ TOKEN_FILE = 'token.json'
 CREDENTIALS_FILE = 'client_secret.json'
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 flow = Flow.from_client_secrets_file(
     CREDENTIALS_FILE,
