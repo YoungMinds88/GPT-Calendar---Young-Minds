@@ -72,5 +72,23 @@ def crear_evento():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@app.route("/cancel-evento", methods=["POST"])
+def cancel_event():
+    data = request.get_json()
+    event_id = data.get("event_id")
+    
+    if not event_id:
+        return jsonify({"error": "Falta el ID del evento"}), 400
+
+    creds = get_credentials()
+    service = build("calendar", "v3", credentials=creds)
+
+    try:
+        service.events().delete(calendarId="primary", eventId=event_id).execute()
+        return jsonify({"status": "Evento cancelado correctamente"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=10000)
