@@ -1,5 +1,4 @@
-
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, send_file, send_from_directory
 from werkzeug.middleware.proxy_fix import ProxyFix
 import datetime
 import os.path
@@ -72,30 +71,9 @@ def crear_evento():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route("/cancel-evento", methods=["POST"])
-def cancel_event():
-    data = request.get_json()
-    event_id = data.get("event_id")
-    
-    if not event_id:
-        return jsonify({"error": "Falta el ID del evento"}), 400
-
-    creds = get_credentials()
-    service = build("calendar", "v3", credentials=creds)
-
-    try:
-        service.events().delete(calendarId="primary", eventId=event_id).execute()
-        return jsonify({"status": "Evento cancelado correctamente"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-from flask import send_file  # Asegúrate de que esta línea esté al principio del archivo
-
 @app.route("/openapi.yaml")
 def serve_openapi():
     return send_file("openapi.yaml", mimetype="text/yaml")
-
-from flask import send_from_directory
 
 @app.route('/.well-known/ai-plugin.json')
 def serve_ai_plugin():
